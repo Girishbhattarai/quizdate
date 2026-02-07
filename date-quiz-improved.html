@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Win a Date Quiz 😏</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Pacifico&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #FF1744;
+            --secondary: #FF4081;
+            --accent: #00E676;
+            --bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --text: #2d3436;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Animated background elements */
+        .bg-shape {
+            position: fixed;
+            border-radius: 50%;
+            opacity: 0.1;
+            animation: float 20s infinite ease-in-out;
+            z-index: 0;
+        }
+
+        .bg-shape:nth-child(1) {
+            width: 300px;
+            height: 300px;
+            background: #fff;
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .bg-shape:nth-child(2) {
+            width: 200px;
+            height: 200px;
+            background: #FF4081;
+            top: 60%;
+            right: 15%;
+            animation-delay: 3s;
+        }
+
+        .bg-shape:nth-child(3) {
+            width: 150px;
+            height: 150px;
+            background: #00E676;
+            bottom: 20%;
+            left: 20%;
+            animation-delay: 6s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            33% {
+                transform: translate(30px, -30px) rotate(120deg);
+            }
+            66% {
+                transform: translate(-20px, 20px) rotate(240deg);
+            }
+        }
+
+        .container {
+            max-width: 700px;
+            width: 100%;
+            background: white;
+            border-radius: 30px;
+            padding: 50px;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 1;
+            animation: slideUp 0.8s ease-out;
+            margin: auto;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .quiz-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-family: 'Pacifico', cursive;
+            font-size: clamp(2rem, 5vw, 3rem);
+            background: linear-gradient(135deg, #FF1744, #FF4081, #FF6E40);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            animation: rainbow 3s ease-in-out infinite;
+        }
+
+        @keyframes rainbow {
+            0%, 100% {
+                filter: hue-rotate(0deg);
+            }
+            50% {
+                filter: hue-rotate(20deg);
+            }
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #636e72;
+            font-weight: 600;
+        }
+
+        /* Name Input Section */
+        .name-section {
+            background: linear-gradient(135deg, #ffeaa7, #fab1a0);
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+            border: 3px solid #fdcb6e;
+        }
+
+        .name-section h2 {
+            font-size: 1.5rem;
+            color: var(--text);
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .name-input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .name-input {
+            width: 100%;
+            max-width: 400px;
+            padding: 15px 20px;
+            font-size: 1.1rem;
+            border: 3px solid #fdcb6e;
+            border-radius: 15px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .name-input:focus {
+            outline: none;
+            border-color: #FF4081;
+            box-shadow: 0 0 0 3px rgba(255, 64, 129, 0.2);
+        }
+
+        .start-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .start-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 35px rgba(102, 126, 234, 0.6);
+        }
+
+        .quiz-intro {
+            background: linear-gradient(135deg, #ffeaa7, #fab1a0);
+            padding: 25px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+            border: 3px solid #fdcb6e;
+        }
+
+        .quiz-intro p {
+            font-size: 1.1rem;
+            color: var(--text);
+            line-height: 1.6;
+            font-weight: 600;
+        }
+
+        .question-container {
+            margin-bottom: 35px;
+            animation: fadeInUp 0.5s ease-out backwards;
+        }
+
+        .question-container:nth-child(1) { animation-delay: 0.1s; }
+        .question-container:nth-child(2) { animation-delay: 0.2s; }
+        .question-container:nth-child(3) { animation-delay: 0.3s; }
+        .question-container:nth-child(4) { animation-delay: 0.4s; }
+        .question-container:nth-child(5) { animation-delay: 0.5s; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .question {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .question-number {
+            display: inline-flex;
+            width: 35px;
+            height: 35px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 50%;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        .options {
+            display: grid;
+            gap: 12px;
+        }
+
+        .option {
+            background: #f8f9fa;
+            padding: 15px 20px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid transparent;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 600;
+        }
+
+        .option:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+            border-color: #667eea;
+        }
+
+        .option input[type="radio"] {
+            width: 22px;
+            height: 22px;
+            cursor: pointer;
+            accent-color: #667eea;
+        }
+
+        .option.selected {
+            background: linear-gradient(135deg, #a8e6cf, #81c784);
+            border-color: #00E676;
+            transform: scale(1.02);
+        }
+
+        .submit-container {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #FF1744, #FF4081);
+            color: white;
+            border: none;
+            padding: 18px 60px;
+            font-size: 1.4rem;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            box-shadow: 0 10px 30px rgba(255, 23, 68, 0.4);
+            font-family: 'Poppins', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .submit-btn:hover {
+            transform: scale(1.1) rotate(-2deg);
+            box-shadow: 0 15px 40px rgba(255, 23, 68, 0.6);
+        }
+
+        .submit-btn:active {
+            transform: scale(0.95);
+        }
+
+        .submit-btn:disabled {
+            background: #95a5a6;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        /* Results Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .modal.show {
+            display: flex;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: white;
+            padding: 50px 40px;
+            border-radius: 30px;
+            text-align: center;
+            max-width: 550px;
+            width: 100%;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+            animation: celebrate 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            position: relative;
+            overflow: hidden;
+            margin: auto;
+        }
+
+        @keyframes celebrate {
+            0% {
+                transform: scale(0) rotate(-180deg);
+            }
+            100% {
+                transform: scale(1) rotate(0deg);
+            }
+        }
+
+        .score-display {
+            font-size: 5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #FF1744, #FFD700, #00E676);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 20px 0;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        .trophy {
+            font-size: 6rem;
+            animation: spin 2s ease-in-out infinite;
+            display: inline-block;
+        }
+
+        @keyframes spin {
+            0%, 100% {
+                transform: rotate(0deg) scale(1);
+            }
+            25% {
+                transform: rotate(-15deg) scale(1.1);
+            }
+            75% {
+                transform: rotate(15deg) scale(1.1);
+            }
+        }
+
+        .modal h2 {
+            font-family: 'Pacifico', cursive;
+            font-size: 2rem;
+            color: #FF1744;
+            margin: 15px 0;
+        }
+
+        .reward-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 15px 0;
+            animation: shimmer 2s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.7;
+            }
+        }
+
+        .date-details {
+            background: linear-gradient(135deg, #ffeaa7, #fab1a0);
+            padding: 20px;
+            border-radius: 20px;
+            margin: 20px 0;
+            border: 3px solid #fdcb6e;
+        }
+
+        .date-details p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .modal-btn {
+            background: linear-gradient(135deg, #00E676, #00C853);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(0, 230, 118, 0.4);
+        }
+
+        .modal-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 35px rgba(0, 230, 118, 0.6);
+        }
+
+        .fireworks {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .firework {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            animation: explode 1.5s ease-out forwards;
+        }
+
+        @keyframes explode {
+            0% {
+                transform: translate(0, 0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--tx), var(--ty)) scale(0);
+                opacity: 0;
+            }
+        }
+
+        .progress-bar {
+            background: #e9ecef;
+            height: 8px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Admin Panel Styles */
+        .admin-link {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+
+        .admin-link:hover {
+            background: rgba(0, 0, 0, 0.8);
+            transform: scale(1.05);
+        }
+
+        .admin-panel {
+            max-width: 1200px;
+            width: 100%;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .admin-panel h1 {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .responses-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            overflow-x: auto;
+            display: block;
+        }
+
+        .responses-table table {
+            width: 100%;
+            min-width: 600px;
+        }
+
+        .responses-table th,
+        .responses-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .responses-table th {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            font-weight: 700;
+            position: sticky;
+            top: 0;
+        }
+
+        .responses-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .response-item {
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+
+        .clear-btn {
+            background: linear-gradient(135deg, #FF1744, #FF4081);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .clear-btn:hover {
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .question {
+                font-size: 1.1rem;
+            }
+
+            .modal-content {
+                padding: 30px 20px;
+            }
+
+            .score-display {
+                font-size: 3.5rem;
+            }
+
+            .trophy {
+                font-size: 4rem;
+            }
+
+            .modal h2 {
+                font-size: 1.5rem;
+            }
+
+            .reward-text {
+                font-size: 1.2rem;
+            }
+
+            .date-details p {
+                font-size: 1rem;
+            }
+
+            .admin-panel {
+                padding: 20px;
+            }
+
+            .responses-table {
+                font-size: 0.85rem;
+            }
+
+            .responses-table th,
+            .responses-table td {
+                padding: 10px 8px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px 15px;
+            }
+
+            .submit-btn {
+                padding: 15px 40px;
+                font-size: 1.1rem;
+            }
+
+            .modal-content {
+                padding: 25px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-shape"></div>
+    <div class="bg-shape"></div>
+    <div class="bg-shape"></div>
+
+    <!-- Admin Link -->
+    <a href="#admin" class="admin-link" onclick="showAdmin(event)">🔐 Admin</a>
+
+    <!-- Quiz Container -->
+    <div class="container" id="quizContainer">
+        <div class="quiz-header">
+            <h1>🎯 The Ultimate Date Quiz 🎯</h1>
+            <p class="subtitle">Answer correctly to win an amazing prize!</p>
+        </div>
+
+        <!-- Name Input Section -->
+        <div class="name-section" id="nameSection">
+            <h2>👋 Let's start with your name!</h2>
+            <div class="name-input-group">
+                <input 
+                    type="text" 
+                    id="nameInput" 
+                    class="name-input" 
+                    placeholder="Enter your name here..."
+                    required
+                >
+                <button class="start-btn" onclick="startQuiz()">Start Quiz 🚀</button>
+            </div>
+        </div>
+
+        <!-- Quiz Content (Initially Hidden) -->
+        <div id="quizContent" class="hidden">
+            <div class="quiz-intro">
+                <p>⚠️ <strong>WARNING:</strong> This quiz is VERY difficult. Only the most brilliant minds can score 6/6. But if you manage to ace it, you'll win something VERY special... 😏</p>
+            </div>
+
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressBar"></div>
+            </div>
+
+            <form id="quizForm">
+                <!-- Question 1 -->
+                <div class="question-container">
+                    <div class="question">
+                        <span class="question-number">1</span>
+                        <span>What is the correct response when someone sends you this quiz?</span>
+                    </div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q1" value="a" required>
+                            <span>Ignore it forever</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q1" value="b">
+                            <span>Screenshot and send to group chat</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q1" value="c">
+                            <span>Overthink for 3 business days</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q1" value="d">
+                            <span>Finish it and say yes to a date ✅</span>
+                        </label>
+                    </div>
+                </div>
+            
+                <!-- Question 2 -->
+                <div class="question-container">
+                    <div class="question">
+                        <span class="question-number">2</span>
+                        <span>You're free this weekend. What should you do?</span>
+                    </div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q2" value="a" required>
+                            <span>Rewatch the same series for the 4th time</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q2" value="b">
+                            <span>Sleep and scroll endlessly</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q2" value="c">
+                            <span>Touch grass</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q2" value="d">
+                            <span>Go on a date with the person who made this quiz 🌸</span>
+                        </label>
+                    </div>
+                </div>
+            
+                <!-- Question 3 -->
+                <div class="question-container">
+                    <div class="question">
+                        <span class="question-number">3</span>
+                        <span>What's your ideal first date activity?</span>
+                    </div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q3" value="a" required>
+                            <span>Competitive mini golf (I will destroy you)</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q3" value="b">
+                            <span>Coffee shop and deep conversations about life</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q3" value="c">
+                            <span>Escape room (teamwork makes the dream work)</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q3" value="d">
+                            <span>Cooking disaster together at home</span>
+                        </label>
+                    </div>
+                </div>
+            
+                <!-- Question 4 -->
+                <div class="question-container">
+                    <div class="question">
+                        <span class="question-number">4</span>
+                        <span>How would you rate your dance skills?</span>
+                    </div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q4" value="a" required>
+                            <span>10/10 – I'm basically a professional</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q4" value="b">
+                            <span>5/10 – I've got moves but they're questionable</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q4" value="c">
+                            <span>2/10 – Think baby giraffe learning to walk</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q4" value="d">
+                            <span>-5/10 – I clear dance floors (people run away)</span>
+                        </label>
+                    </div>
+                </div>
+            
+                <!-- Question 5 -->
+                <div class="question-container">
+                    <div class="question">
+                        <span class="question-number">5</span>
+                        <span>If this turns into a date, what's the biggest risk?</span>
+                    </div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q5" value="a" required>
+                            <span>Bad food</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q5" value="b">
+                            <span>Bad jokes</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q5" value="c">
+                            <span>Awkward silence</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q5" value="d">
+                            <span>Accidentally having a great time 😏</span>
+                        </label>
+                    </div>
+                </div>
+            
+                <!-- Question 6 -->
+                <div class="question-container">
+                    <div class="question">
+                        <span class="question-number">6</span>
+                        <span>This quiz ends with:</span>
+                    </div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q6" value="a" required>
+                            <span>A certificate</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q6" value="b">
+                            <span>Bonus marks</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q6" value="c">
+                            <span>Absolutely nothing</span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q6" value="d">
+                            <span>A simple question: "So… when are you free?" 📅</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="submit-container">
+                    <button type="submit" class="submit-btn" id="submitBtn">
+                        🎲 See My Results! 🎲
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Admin Panel (Initially Hidden) -->
+    <div class="container admin-panel hidden" id="adminPanel">
+        <h1>📊 Admin Dashboard</h1>
+        <p style="text-align: center; color: #636e72; margin-bottom: 20px;">
+            Total Responses: <strong id="totalResponses">0</strong>
+        </p>
+        <button class="clear-btn" onclick="clearResponses()">🗑️ Clear All Data</button>
+        <button class="clear-btn" onclick="showQuiz()" style="background: linear-gradient(135deg, #667eea, #764ba2); margin-left: 10px;">← Back to Quiz</button>
+        
+        <div class="responses-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Date & Time</th>
+                        <th>Answers</th>
+                    </tr>
+                </thead>
+                <tbody id="responsesBody">
+                    <tr>
+                        <td colspan="4" style="text-align: center; padding: 40px; color: #95a5a6;">
+                            No responses yet. Share the quiz to get started! 🚀
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Results Modal -->
+    <div class="modal" id="resultsModal">
+        <div class="modal-content">
+            <div class="fireworks" id="fireworks"></div>
+            <div class="trophy">🏆</div>
+            <h2 id="congratsMessage">PERFECT SCORE!</h2>
+            <div class="score-display">6/6</div>
+            <div class="reward-text">🎉 REWARD UNLOCKED 🎉</div>
+            <div class="date-details">
+                <p><strong>🎊 CONGRATULATIONS <span id="winnerName"></span>! 🎊</strong></p>
+                <p>You've won the grand prize:</p>
+                <p style="font-size: 1.5rem; margin-top: 10px;">✨ <strong>A DATE WITH GIRISH!</strong> ✨</p>
+            </div>
+            <button class="modal-btn" onclick="closeModal()">LET'S DO THIS! 🚀</button>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('quizForm');
+        const modal = document.getElementById('resultsModal');
+        const progressBar = document.getElementById('progressBar');
+        let userName = '';
+        
+        // Track answers for progress bar
+        const questions = ['q1', 'q2', 'q3', 'q4', 'q5', 'q6'];
+        const answered = new Set();
+
+        // Question labels
+        const questionLabels = {
+            'q1': 'Response to quiz',
+            'q2': 'Weekend plans',
+            'q3': 'Date activity',
+            'q4': 'Dance skills',
+            'q5': 'Biggest risk',
+            'q6': 'Quiz ending'
+        };
+
+        // Initialize - Load responses on page load
+        window.addEventListener('load', loadResponses);
+
+        function startQuiz() {
+            const nameInput = document.getElementById('nameInput');
+            userName = nameInput.value.trim();
+            
+            if (userName === '') {
+                alert('Please enter your name to continue! 😊');
+                nameInput.focus();
+                return;
+            }
+            
+            // Hide name section and show quiz
+            document.getElementById('nameSection').classList.add('hidden');
+            document.getElementById('quizContent').classList.remove('hidden');
+        }
+
+        // Add selection styling and progress tracking
+        document.querySelectorAll('.option').forEach(option => {
+            option.addEventListener('click', function() {
+                const radio = this.querySelector('input[type="radio"]');
+                const name = radio.name;
+                
+                // Remove selected class from siblings
+                document.querySelectorAll(`input[name="${name}"]`).forEach(r => {
+                    r.closest('.option').classList.remove('selected');
+                });
+                
+                // Add selected class to clicked option
+                this.classList.add('selected');
+                radio.checked = true;
+                
+                // Update progress
+                answered.add(name);
+                updateProgress();
+            });
+        });
+
+        function updateProgress() {
+            const progress = (answered.size / questions.length) * 100;
+            progressBar.style.width = progress + '%';
+        }
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Collect answers
+            const formData = new FormData(form);
+            const answers = {};
+            questions.forEach(q => {
+                answers[q] = formData.get(q);
+            });
+            
+            // Save response to localStorage
+            saveResponse(userName, answers);
+            
+            // Show results with personalized message
+            document.getElementById('winnerName').textContent = userName;
+            document.getElementById('congratsMessage').textContent = `PERFECT SCORE, ${userName.toUpperCase()}!`;
+            
+            createFireworks();
+            modal.classList.add('show');
+        });
+
+        function saveResponse(name, answers) {
+            // Get existing responses
+            let responses = JSON.parse(localStorage.getItem('quizResponses') || '[]');
+            
+            // Add new response
+            const response = {
+                name: name,
+                answers: answers,
+                timestamp: new Date().toISOString(),
+                date: new Date().toLocaleString()
+            };
+            
+            responses.push(response);
+            
+            // Save back to localStorage
+            localStorage.setItem('quizResponses', JSON.stringify(responses));
+        }
+
+        function loadResponses() {
+            const responses = JSON.parse(localStorage.getItem('quizResponses') || '[]');
+            const tbody = document.getElementById('responsesBody');
+            const totalElement = document.getElementById('totalResponses');
+            
+            totalElement.textContent = responses.length;
+            
+            if (responses.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="4" style="text-align: center; padding: 40px; color: #95a5a6;">
+                            No responses yet. Share the quiz to get started! 🚀
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            tbody.innerHTML = '';
+            responses.reverse().forEach((response, index) => {
+                const row = document.createElement('tr');
+                
+                // Format answers
+                let answersHTML = '';
+                Object.keys(response.answers).forEach(q => {
+                    answersHTML += `<div class="response-item"><strong>${questionLabels[q]}:</strong> Option ${response.answers[q].toUpperCase()}</div>`;
+                });
+                
+                row.innerHTML = `
+                    <td>${responses.length - index}</td>
+                    <td><strong>${response.name}</strong></td>
+                    <td>${response.date}</td>
+                    <td>${answersHTML}</td>
+                `;
+                
+                tbody.appendChild(row);
+            });
+        }
+
+        function clearResponses() {
+            if (confirm('Are you sure you want to delete all responses? This cannot be undone!')) {
+                localStorage.removeItem('quizResponses');
+                loadResponses();
+                alert('All responses have been cleared! ✅');
+            }
+        }
+
+        function showAdmin(e) {
+            e.preventDefault();
+            document.getElementById('quizContainer').classList.add('hidden');
+            document.getElementById('adminPanel').classList.remove('hidden');
+            loadResponses();
+        }
+
+        function showQuiz() {
+            document.getElementById('adminPanel').classList.add('hidden');
+            document.getElementById('quizContainer').classList.remove('hidden');
+        }
+
+        function createFireworks() {
+            const container = document.getElementById('fireworks');
+            const colors = ['#FF1744', '#FF4081', '#00E676', '#FFD700', '#667eea', '#764ba2'];
+            
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const firework = document.createElement('div');
+                    firework.className = 'firework';
+                    firework.style.left = Math.random() * 100 + '%';
+                    firework.style.top = Math.random() * 100 + '%';
+                    firework.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    
+                    const tx = (Math.random() - 0.5) * 200;
+                    const ty = (Math.random() - 0.5) * 200;
+                    firework.style.setProperty('--tx', tx + 'px');
+                    firework.style.setProperty('--ty', ty + 'px');
+                    
+                    container.appendChild(firework);
+                    
+                    setTimeout(() => firework.remove(), 1500);
+                }, i * 50);
+            }
+        }
+
+        function closeModal() {
+            modal.classList.remove('show');
+            document.getElementById('fireworks').innerHTML = '';
+        }
+
+        // Close modal when clicking outside
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        // Allow Enter key to start quiz
+        document.getElementById('nameInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                startQuiz();
+            }
+        });
+    </script>
+</body>
+</html>
